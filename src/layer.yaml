@@ -1,0 +1,4 @@
+includes:
+  - "layer:caas-base"
+  - "layer:docker-resource"
+repo: https://github.com/omnivector-solutions/layer-redis-k8s
