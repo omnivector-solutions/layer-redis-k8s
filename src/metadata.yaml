@@ -13,6 +13,9 @@ tags:
   - redis
 series:
    - kubernetes
+provides:
+  redis:
+    interface: redis-k8s
 resources:
   redis_image:
     type: oci-image

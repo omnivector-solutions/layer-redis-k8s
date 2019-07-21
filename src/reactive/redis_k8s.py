@@ -1,9 +1,12 @@
-from charms.reactive import when, when_not
-from charms.reactive.flags import set_flag
+from charms.reactive import (
+        endpoint_from_flag, set_flag, when, when_not,
+)
 from charmhelpers.core.hookenv import (
     log,
     metadata,
+    network_get,
     status_set,
+    relation_id,
 )
 
 
@@ -47,3 +50,17 @@ def make_pod_spec():
 @when('redis.configured')
 def redis_active():
     status_set('active', '')
+
+
+@when('endpoint.redis-k8s.joined')
+def configure_relation_data():
+    endpoint = endpoint_from_flag('endpoint.redis-k8s.joined')
+
+    info = network_get('redis', relation_id())
+    log('network info {0}'.format(info))
+    host = info['ingress-addresses'][0]
+    if host == "":
+        log("no service address yet")
+        return
+    else:
+        endpoint.configure(host=host, port="6379")
