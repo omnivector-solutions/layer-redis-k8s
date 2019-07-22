@@ -15,7 +15,7 @@ series:
    - kubernetes
 provides:
   redis:
-    interface: redis-k8s
+    interface: redis
 resources:
   redis_image:
     type: oci-image

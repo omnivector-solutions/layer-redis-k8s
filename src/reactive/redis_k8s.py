@@ -52,9 +52,9 @@ def redis_active():
     status_set('active', '')
 
 
-@when('endpoint.redis-k8s.joined')
+@when('endpoint.redis.joined')
 def configure_relation_data():
-    endpoint = endpoint_from_flag('endpoint.redis-k8s.joined')
+    endpoint = endpoint_from_flag('endpoint.redis.joined')
 
     info = network_get('redis', relation_id())
     log('network info {0}'.format(info))

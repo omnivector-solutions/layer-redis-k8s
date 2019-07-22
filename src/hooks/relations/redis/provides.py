@@ -3,7 +3,7 @@ from charms.reactive import set_flag, clear_flag
 from charms.reactive import Endpoint
 
 
-class RedisK8SProvides(Endpoint):
+class RedisProvides(Endpoint):
 
     @when('endpoint.{endpoint_name}.joined')
     def joined(self):
@@ -13,9 +13,9 @@ class RedisK8SProvides(Endpoint):
     def broken(self):
         clear_flag(self.expand_name('available'))
 
-    def configure(self, host, port):
+    def configure(self, host, port, password=None):
         for relation in self.relations:
-            relation.to_publish.update({
-                'host': host,
-                'port': port,
-            })
+            ctxt = {'host': host, 'port': port}
+            if password:
+                ctxt['password'] = password
+            relation.to_publish.update(ctxt)
